@@ -1,37 +1,66 @@
 import exampleVideoData from '/src/data/exampleVideoData.js';
 import VideoList from './VideoList.js';
 import VideoPlayer from './VideoPlayer.js';
+import Search from './Search.js';
+import searchYouTube from '/src/lib/searchYoutube.js';
 
-console.table(exampleVideoData);
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      videos: exampleVideoData
+      videos: exampleVideoData,
+      currentVideo: exampleVideoData[0]
     };
+    this.changeCurrentVideo = this.changeCurrentVideo.bind(this);
+    this.getYoutubeVideos = this.getYoutubeVideos.bind(this);
+
+  }
+
+  getYoutubeVideos(searchInput) {
+    searchYouTube(searchInput, (data) => {
+      this.setState({
+        videos: data,
+        currentVideo: data[0]
+      });
+    });
+  }
+
+
+
+  changeCurrentVideo(video) {
+    // update the state of currentVideo
+    this.setState({
+      videos: this.state.videos,
+      currentVideo: video
+    });
+  }
+
+  componentDidMount() {
+    this.getYoutubeVideos('');
   }
 
   render() {
-    console.log('videos:', this.state.videos);
     return (
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><h5><em>search</em> view goes here</h5></div>
+            <Search handleChange={this.getYoutubeVideos}/>
           </div>
         </nav>
         <div className="row">
           <div className="col-md-7">
-            <VideoPlayer video={this.state.videos[1]}/>
+            <VideoPlayer video={this.state.currentVideo}/>
           </div>
           <div className="col-md-5">
-            <VideoList videos={this.state.videos}/>
+            <VideoList videos={this.state.videos} handleClick={this.changeCurrentVideo}/>
           </div>
         </div>
       </div>
     );
   }
+
+
 }
 
 

@@ -2,10 +2,11 @@ import VideoListEntry from './VideoListEntry.js';
 import App from './App.js';
 
 const VideoList = (props) => {
+
   return (
-    <ul>
+    <ul className ='video-list'>
       {props.videos.map((vid) => (
-        <VideoListEntry key={vid.id.videoId} video={vid} />
+        <VideoListEntry key={vid.id.videoId} video={vid} handleClick={props.handleClick}/>
       ))}
     </ul>
   );
