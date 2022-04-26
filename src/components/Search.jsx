@@ -14,11 +14,8 @@ class Search extends React.Component {
 
   handleInputChange(event) {
     this.setState({ userInput: event.target.value });
-    const debouncedFilter = _.debounce(() => {
-      this.props.handleChange(this.state.userInput);
-    }, 500);
+    this.props.handleChange(this.state.userInput);
 
-    debouncedFilter();
   }
 
   render() {
@@ -30,7 +27,7 @@ class Search extends React.Component {
           value={this.state.userInput}
           onChange={this.handleInputChange}
         />
-        <button className="btn hidden-sm-down">
+        <button className="btn hidden-sm-down" onClick={this.handleSubmit}>
           <span className="glyphicon glyphicon-search"></span>
         </button>
       </div>
@@ -38,14 +35,6 @@ class Search extends React.Component {
   }
 }
 
-// var Search = () => (
-//   <div className="search-bar form-inline">
-//     <input className="form-control" type="text" />
-//     <button className="btn hidden-sm-down">
-//       <span className="glyphicon glyphicon-search"></span>
-//     </button>
-//   </div>
-// );
 
 // In the ES6 spec, files are "modules" and do not share a top-level scope
 // `var` declarations will only exist globally where explicitly defined
